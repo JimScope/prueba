@@ -61,6 +61,10 @@ def generate_file(args: argparse.Namespace) -> None:
             )
             logging.info(f"Response from server received: {server_response}")
         client.send("END_SESSION".encode(config_def["FORMAT"]))
+        server_response = client.recv(int(config_def["SIZE"])).decode(
+            config_def["FORMAT"]
+        )  # wait for the server to close the connection and sent the processed time
+        logging.info(server_response)
         logging.info("Disconnected from the server")
         client.close()
 
